@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/pack/:path*",     "destination": "/api/pack/:path*" },
+    { "source": "/telegram/:path*", "destination": "/api/telegram/:path*" },
+    { "source": "/admin",           "destination": "/admin.html" }
+  ]
+}

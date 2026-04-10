@@ -1,5 +1,9 @@
 {
   "name": "api-mi-bot",
   "version": "1.0.0",
-  "description": "Mi propio servidor para la extensión"
+  "description": "Servidor personal para la extensión Gladiatus Bot",
+  "dependencies": {
+    "@upstash/redis": "^1.34.0",
+    "crypto-js": "^4.2.0"
+  }
 }
