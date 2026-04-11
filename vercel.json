@@ -1,7 +1,10 @@
 {
   "rewrites": [
-    { "source": "/pack/:path*",     "destination": "/api/pack/:path*" },
-    { "source": "/telegram/:path*", "destination": "/api/telegram/:path*" },
-    { "source": "/admin",           "destination": "/admin.html" }
+    { "source": "/pack/:path*",          "destination": "/api/pack/:path*" },
+    { "source": "/telegram/:path*",      "destination": "/api/telegram/:path*" },
+    { "source": "/check-licence/:path*", "destination": "/api/licence/:path*" },
+    { "source": "/config",               "destination": "/api/config" },
+    { "source": "/check-version/:path*", "destination": "/api/version/:path*" },
+    { "source": "/admin",                "destination": "/admin.html" }
   ]
 }
