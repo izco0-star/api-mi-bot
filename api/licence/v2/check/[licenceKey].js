@@ -43,5 +43,6 @@ module.exports = async function handler(req, res) {
 
   var encrypted = CryptoJS.AES.encrypt(payload, 'sugi').toString();
   res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('ETag', 'W/"123456789"');
   return res.status(200).send(encrypted);
 };
