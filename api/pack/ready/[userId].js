@@ -1,13 +1,6 @@
-import { verifyLicense, setCors, handleOptions } from '../../../lib/auth.js';
+const { verifyLicense, setCors, handleOptions } = require('../../../lib/auth');
 
-/**
- * GET /pack/ready/{userId}?e={timestamp}
- *
- * La extensión llama a este endpoint para saber si el usuario tiene licencia activa.
- * - Con licencia activa  → devuelve un array con el pack (el bot arranca).
- * - Sin licencia         → devuelve [] (el bot no arranca).
- */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   setCors(res);
   if (req.method === 'OPTIONS') return handleOptions(res);
   if (req.method !== 'GET')     return res.status(405).json({ error: 'Método no permitido' });
@@ -16,13 +9,11 @@ export default async function handler(req, res) {
   const auth = await verifyLicense(req);
 
   if (!auth.valid) {
-    // Sin licencia válida → array vacío
     return res.status(200).json([]);
   }
 
   const { license } = auth;
 
-  // Formato de pack que espera la extensión
   const pack = {
     id:        `license_${userId}`,
     clientId:  userId,
@@ -34,4 +25,4 @@ export default async function handler(req, res) {
   };
 
   return res.status(200).json([pack]);
-}
+};

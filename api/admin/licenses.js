@@ -1,15 +1,7 @@
-import { verifyAdmin, setCors, handleOptions } from '../../lib/auth.js';
-import { kv } from '../../lib/kv.js';
+const { verifyAdmin, setCors, handleOptions } = require('../../lib/auth');
+const { kv } = require('../../lib/kv');
 
-/**
- * GET /api/admin/licenses
- *
- * Devuelve la lista completa de todos los usuarios en Redis:
- * activos, expirados y solicitudes pendientes.
- *
- * Requiere cabecera: X-Admin-Password: {tu contraseña}
- */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   setCors(res);
   if (req.method === 'OPTIONS') return handleOptions(res);
   if (req.method !== 'GET')     return res.status(405).json({ error: 'Método no permitido' });
@@ -19,22 +11,29 @@ export default async function handler(req, res) {
   }
 
   const all = await kv.getAllLicenses();
-
   const now = Date.now();
-  const enriched = all.map(l => ({
-    ...l,
-    status:    !l.active ? 'pending'
-             : l.expiresAt < now ? 'expired'
-             : 'active',
-    daysLeft:  l.expiresAt ? Math.max(0, Math.ceil((l.expiresAt - now) / (24 * 60 * 60 * 1000))) : 0,
-    expiresAtHuman: l.expiresAt ? new Date(l.expiresAt).toISOString() : null,
-  }));
 
-  // Ordenar: activos primero, luego pendientes, luego expirados
-  enriched.sort((a, b) => {
-    const order = { active: 0, pending: 1, expired: 2 };
-    return (order[a.status] ?? 3) - (order[b.status] ?? 3);
+  const enriched = all.map(function(l) {
+    var status;
+    if (!l.active) {
+      status = 'pending';
+    } else if (l.expiresAt < now) {
+      status = 'expired';
+    } else {
+      status = 'active';
+    }
+
+    return Object.assign({}, l, {
+      status:         status,
+      daysLeft:       l.expiresAt ? Math.max(0, Math.ceil((l.expiresAt - now) / (24 * 60 * 60 * 1000))) : 0,
+      expiresAtHuman: l.expiresAt ? new Date(l.expiresAt).toISOString() : null,
+    });
+  });
+
+  enriched.sort(function(a, b) {
+    var order = { active: 0, pending: 1, expired: 2 };
+    return (order[a.status] || 3) - (order[b.status] || 3);
   });
 
   return res.status(200).json(enriched);
-}
+};
