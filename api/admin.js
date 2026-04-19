@@ -17,22 +17,31 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    // Obtener configuración actual
-    const config = await kv.get('bot_config') || {
-      announce: null,
-      s: false,
-      m: "",
-      v: null,
-      license_days: 365
-    };
-    return res.status(200).json(config);
+    try {
+      // Obtener configuración actual
+      const config = await kv.get('bot_config') || {
+        announce: null,
+        s: false,
+        m: "",
+        v: null,
+        license_days: 365
+      };
+      return res.status(200).json(config);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json({ error: 'Error de base de datos. ¿Has conectado Vercel KV en el panel de Storage?' });
+    }
   }
 
   if (req.method === 'POST') {
-    // Actualizar configuración
-    const newConfig = req.body;
-    await kv.set('bot_config', newConfig);
-    return res.status(200).json({ success: true, config: newConfig });
+    try {
+      // Actualizar configuración
+      const newConfig = req.body;
+      await kv.set('bot_config', newConfig);
+      return res.status(200).json({ success: true, config: newConfig });
+    } catch (e) {
+      return res.status(500).json({ error: 'No se pudo guardar en la base de datos.' });
+    }
   }
 
   return res.status(404).end();
