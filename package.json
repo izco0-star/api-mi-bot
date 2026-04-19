@@ -4,6 +4,7 @@
   "description": "Servidor personal para la extensión Gladiatus Bot",
   "dependencies": {
     "@upstash/redis": "^1.34.0",
+    "@vercel/speed-insights": "^2.0.0",
     "crypto-js": "^4.2.0"
   }
 }
