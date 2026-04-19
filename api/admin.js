@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   const adminToken = req.headers['x-admin-token'];
-  const expectedToken = process.env.ADMIN_TOKEN || 'admin123'; // Default for safety, should be changed
+  const expectedToken = process.env.ADMIN_TOKEN || 'TagleSuances2030';
 
   if (adminToken !== expectedToken) {
     return res.status(401).json({ error: 'No autorizado' });
