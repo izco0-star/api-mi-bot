@@ -1,4 +1,16 @@
-import { kv } from '@vercel/kv';
+import { createClient } from '@vercel/kv';
+
+// Helper para inicializar KV con soporte para prefijos (como STORAGE_)
+const getKVClient = () => {
+  const url = process.env.KV_REST_API_URL || process.env.STORAGE_KV_REST_API_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.STORAGE_KV_REST_API_TOKEN;
+  
+  if (!url || !token) {
+    throw new Error('Configuración de KV incompleta.');
+  }
+  
+  return createClient({ url, token });
+};
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -9,9 +21,16 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  let days = 365;
+
   // Cargar configuración de días desde KV
-  const config = await kv.get('bot_config') || { license_days: 365 };
-  const days = config.license_days || 365;
+  try {
+    const kv = getKVClient();
+    const config = await kv.get('bot_config') || { license_days: 365 };
+    days = config.license_days || 365;
+  } catch (e) {
+    // Fail silently, use default 365
+  }
 
   const futureTimestamp = Date.now() + days * 24 * 60 * 60 * 1000;
 
