@@ -1,9 +1,9 @@
 {
   "name": "api-mi-bot",
   "version": "1.0.0",
-  "description": "Servidor personal para la extensión Gladiatus Bot",
+  "description": "API servidor para extensión MiBotGladiatus",
+  "type": "module",
   "dependencies": {
-    "@upstash/redis": "^1.34.0",
-    "crypto-js": "^4.2.0"
+    "@vercel/kv": "^3.0.0"
   }
 }

@@ -1,21 +1,26 @@
-const { setCors, handleOptions } = require('../lib/auth');
+import { kv } from '@vercel/kv';
 
-/**
- * GET /config
- *
- * La UI pide la configuración del servidor al arrancar.
- * Devolvemos una configuración mínima que no bloquea nada.
- */
-module.exports = async function handler(req, res) {
-  setCors(res);
-  if (req.method === 'OPTIONS') return handleOptions(res);
-  if (req.method !== 'GET') return res.status(405).end();
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-TOKEN');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // Intentar cargar configuración desde KV, si no existe usar defaults
+  const config = await kv.get('bot_config') || {
+    announce: null,
+    s: false,
+    m: "",
+    v: null
+  };
 
   return res.status(200).json({
-    maintenance:  false,
-    version:      '2.3.13',
-    minVersion:   '2.0.0',
-    announcement: '',
-    features:     {},
+    announce: config.announce,
+    s: config.s,
+    m: config.m,
+    v: config.v
   });
-};
+}

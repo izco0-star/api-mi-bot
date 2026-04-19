@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botillo Admin | Gestión de Licencias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent: #22d3ee;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.15) 0px, transparent 50%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #6366f1, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dim);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], 
+        input[type="password"], 
+        input[type="number"],
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #334155;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 4px; bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        button {
+            width: 100%;
+            background: linear-gradient(to right, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+
+        button:active { transform: translateY(0); }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-live { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .badge-maint { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .hidden { display: none !important; }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(150%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show { transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <div class="card" style="width: 100%; max-width: 400px;">
+            <header>
+                <h1>Admin Access</h1>
+                <p style="color: var(--text-dim)">Introduce tu token de acceso</p>
+            </header>
+            <div class="form-group">
+                <input type="password" id="admin-token" placeholder="X-ADMIN-TOKEN">
+            </div>
+            <button id="login-btn">Entrar al Panel</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="main-panel">
+        <header>
+            <h1>Botillo Dashboard</h1>
+            <p id="server-status-text" style="color: var(--text-dim)">Cargando estado...</p>
+        </header>
+
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem;">Estado Global</h3>
+            <div class="toggle-group">
+                <div>
+                    <div style="font-weight: 600;">Modo Mantenimiento</div>
+                    <div style="font-size: 0.8rem; color: var(--text-dim)">Bloquea el uso del bot para todos los usuarios.</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="maint-mode">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="announce-msg">Mensaje de Anuncio / Mantenimiento</label>
+                <textarea id="announce-msg" rows="3" placeholder="Ej: Nueva versión disponible..."></textarea>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem;">Gestión de Licencias</h3>
+            <div class="form-group">
+                <label for="lic-days">Días de Licencia (Regalo)</label>
+                <input type="number" id="lic-days" value="365">
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.5rem;">Días que recibirá cualquier usuario al conectar.</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="min-version">Versión Mínima Requerida</label>
+                <input type="text" id="min-version" placeholder="Ej: 2.3.0">
+            </div>
+        </div>
+
+        <button id="save-btn">
+            <span id="save-text">Guardar Cambios</span>
+        </button>
+    </div>
+
+    <div class="toast" id="toast">Cambios guardados con éxito</div>
+
+    <script>
+        const loginOverlay = document.getElementById('login-overlay');
+        const mainPanel = document.getElementById('main-panel');
+        const loginBtn = document.getElementById('login-btn');
+        const tokenInput = document.getElementById('admin-token');
+        const saveBtn = document.getElementById('save-btn');
+        const toast = document.getElementById('toast');
+
+        let currentToken = '';
+
+        async function fetchData() {
+            try {
+                const res = await fetch('/api/admin', {
+                    headers: { 'X-ADMIN-TOKEN': currentToken }
+                });
+                if (!res.ok) throw new Error('No autorizado');
+                
+                const data = await res.json();
+                
+                document.getElementById('maint-mode').checked = data.s;
+                document.getElementById('announce-msg').value = data.m || '';
+                document.getElementById('lic-days').value = data.license_days || 365;
+                document.getElementById('min-version').value = data.v || '';
+                
+                updateStatusBadge(data.s);
+                return true;
+            } catch (err) {
+                alert('Token incorrecto o error de servidor');
+                return false;
+            }
+        }
+
+        function updateStatusBadge(isMaint) {
+            const statusText = document.getElementById('server-status-text');
+            if (isMaint) {
+                statusText.innerHTML = '<span class="status-badge badge-maint">En Mantenimiento</span>';
+            } else {
+                statusText.innerHTML = '<span class="status-badge badge-live">Sistema ONLINE</span>';
+            }
+        }
+
+        loginBtn.onclick = async () => {
+            currentToken = tokenInput.value;
+            const success = await fetchData();
+            if (success) {
+                loginOverlay.classList.add('hidden');
+                mainPanel.classList.remove('hidden');
+            }
+        };
+
+        tokenInput.onkeydown = (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        };
+
+        saveBtn.onclick = async () => {
+            saveBtn.disabled = true;
+            const saveText = document.getElementById('save-text');
+            saveText.innerText = 'Guardando...';
+
+            const payload = {
+                s: document.getElementById('maint-mode').checked,
+                m: document.getElementById('announce-msg').value,
+                announce: document.getElementById('announce-msg').value || null,
+                v: document.getElementById('min-version').value || null,
+                license_days: parseInt(document.getElementById('lic-days').value)
+            };
+
+            try {
+                const res = await fetch('/api/admin', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-ADMIN-TOKEN': currentToken 
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    showToast();
+                    updateStatusBadge(payload.s);
+                } else {
+                    alert('Error al guardar');
+                }
+            } catch (err) {
+                alert('Error de red');
+            } finally {
+                saveBtn.disabled = false;
+                saveText.innerText = 'Guardar Cambios';
+            }
+        };
+
+        function showToast() {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
