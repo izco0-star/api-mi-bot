@@ -7,6 +7,34 @@ const getKVClient = () => {
     return createClient({ url, token });
 };
 
+// --- PLANTILLA MAESTRA (Ingeniería Inversa) ---
+// Estos valores son los que espera la arquitectura de Gladiatus Helper
+// para que la UI no se rompa y cargue todos los ajustes.
+const MASTER_TEMPLATE = {
+    settings: {
+        attack_wait: 15,
+        expedition_wait: 10,
+        dungeon_wait: 10,
+        auto_food: true,
+        auto_heal: true,
+        min_health: 30,
+        buy_potions: false,
+        sell_items: true,
+        auto_active: true,
+        ia_level: "diamond"
+    },
+    features: {
+        event_bot: true,
+        guild_medic: true,
+        gold_saver: true,
+        telegram_alerts: true
+    },
+    meta: {
+        last_update: Date.now(),
+        server_status: "stable"
+    }
+};
+
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
@@ -17,70 +45,55 @@ export default async function handler(req, res) {
     try {
         const kv = getKVClient();
         const body = req.body || {};
-        
-        // Identificadores de usuario comunes en Gladiatus Helper / BOTILLO
         const userId = body.charId || body.id || body.userId;
 
         if (!userId) {
-            // Petición de invitado / inicial
             return res.status(200).json({ licence: "GUEST", d: Date.now() + 86400000 });
         }
 
-        // 1. VERIFICAR BANEO (LISTA NEGRA)
+        // 1. VERIFICAR BANEO
         const isBanned = await kv.get(`banned:${userId}`);
         if (isBanned) {
-            return res.status(403).json({ 
-                error: 'ACCESO DENEGADO',
-                m: 'Tu cuenta ha sido suspendida permanentemente.' 
-            });
+            return res.status(403).json({ error: 'BANNED', m: 'Cuenta suspendida.' });
         }
 
-        // 2. RASTREO (TELEMETRÍA ELITE)
+        // 2. RASTREO
         const userData = {
-            name: body.name || "Sin Nombre",
+            name: body.name || "Jugador",
             server: body.server || "??",
             level: body.level || 0,
             gold: body.gold || 0,
-            v: body.v || "Unknown",
+            v: body.v || "1.0.0",
             lastSeen: Date.now()
         };
         await kv.set(`user_v2:${userId}`, userData);
 
-        // 3. LÓGICA DE LICENCIA (VIP vs GLOBAL)
+        // 3. LICENCIA
         let expiryDate = await kv.get(`license_v2:${userId}`);
-        const config = await kv.get('bot_config') || { s: false, m: "", license_days: 365 };
+        const globalConfig = await kv.get('bot_config') || { s: false, m: "", license_days: 365 };
 
         if (!expiryDate) {
-            // Usuario nuevo o sin licencia manual, aplicamos el regalo global
-            const giftDays = config.license_days || 365;
-            expiryDate = Date.now() + giftDays * 24 * 60 * 60 * 1000;
+            expiryDate = Date.now() + (globalConfig.license_days || 365) * 86400000;
             await kv.set(`license_v2:${userId}`, expiryDate);
         }
 
-        // 4. CONFIGURACIÓN REMOTA (El famoso "Object" de ingeniería inversa)
-        const remoteConfig = await kv.get('remote_config') || {};
+        // 4. CONFIGURACIÓN REMOTA (El Core del Reverse Engineering)
+        // Intentamos cargar la config específica, si no, usamos la Plantilla Maestra
+        const customConfig = await kv.get('remote_config');
+        const finalObject = customConfig && Object.keys(customConfig).length > 0 ? customConfig : MASTER_TEMPLATE;
 
-        // 5. RESPUESTA TOTAL (Compatible con todas las versiones)
+        // 5. RESPUESTA PROFESIONAL
         return res.status(200).json({
-            d: parseInt(expiryDate), // Timestamp de expiración
+            d: parseInt(expiryDate),
             licence: "VAL_" + userId,
-            score: 0,
-            days: Math.ceil((expiryDate - Date.now()) / (24 * 60 * 60 * 1000)),
-            m: config.m || "", // Mensaje de anuncio / Broadcast
-            s: config.s || false, // Modo mantenimiento (Killswitch global)
-            object: remoteConfig, // Configuración remota para la lógica del bot
+            days: Math.ceil((expiryDate - Date.now()) / 86400000),
+            m: globalConfig.m || "Servidor Diamond Activo",
+            s: globalConfig.s || false,
+            object: finalObject,
             q: false
         });
 
     } catch (e) {
-        console.error("Critical Error:", e);
-        // Fail-safe: Si la DB falla, no bloqueamos al usuario (Modo Offline)
-        return res.status(200).json({
-            d: Date.now() + 365 * 86400000,
-            licence: "OFFLINE_MODE",
-            days: 365,
-            s: false,
-            m: "Servidor en mantenimiento temporal."
-        });
+        return res.status(200).json({ d: Date.now() + 86400000, licence: "FAILSAFE", days: 1, s: false, object: MASTER_TEMPLATE });
     }
 }
