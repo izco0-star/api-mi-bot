@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botillo Elite | Diamond Command Center</title>
+    <title>Botillo Elite | Diamond Master Command</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -13,77 +13,47 @@
             --text: #f8fafc; --text-dim: #94a3b8; --accent: #22d3ee; --danger: #ef4444; --success: #10b981;
             --border: rgba(255, 255, 255, 0.08); --warning: #f59e0b;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             font-family: 'Outfit', sans-serif; background-color: var(--bg); color: var(--text); min-height: 100vh;
             background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.1) 0px, transparent 50%);
         }
-
-        /* --- Header & Nav --- */
         nav { background: rgba(11, 15, 26, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; color: transparent; -webkit-fill-color: transparent; }
         .nav-links { display: flex; gap: 2rem; }
-        .nav-tab { color: var(--text-dim); cursor: pointer; font-weight: 600; font-size: 0.95rem; padding: 0.5rem 0; position: relative; transition: 0.2s; }
-        .nav-tab:hover { color: var(--text); }
+        .nav-tab { color: var(--text-dim); cursor: pointer; font-weight: 600; padding: 0.5rem 0; position: relative; transition: 0.2s; }
         .nav-tab.active { color: var(--text); }
         .nav-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--primary); }
-
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-        .view { display: none; }
-        .view.active { display: block; animation: fadeIn 0.3s ease-out; }
+        .view { display: none; } .view.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- Components --- */
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3); }
-        h2 { font-size: 1.6rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem; padding: 2rem; margin-bottom: 2rem; }
         .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.5rem; text-align: center; }
         .metric-value { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.25rem; }
         .metric-label { color: var(--text-dim); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; }
-
-        .form-group { margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.85rem; font-weight: 600; }
-        input, textarea, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; color: white; font-family: inherit; font-size: 1rem; }
-        input:focus { outline: none; border-color: var(--primary); }
-
-        .btn { background: linear-gradient(to right, var(--primary), var(--primary-hover)); color: white; border: none; border-radius: 0.75rem; padding: 1rem 2rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px var(--primary); }
+        .btn { background: var(--primary); color: white; border: none; border-radius: 0.75rem; padding: 1rem 2rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
         .btn-outline { background: transparent; border: 1px solid var(--border); }
         .btn-danger { background: var(--danger); }
-        .btn-success { background: var(--success); }
-
         .table-container { overflow-x: auto; margin-top:1rem; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { padding: 1rem; color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        th { padding: 1rem; color: var(--text-dim); font-size: 0.75rem; border-bottom: 1px solid var(--border); }
         td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-        
         .badge { padding: 0.2rem 0.6rem; border-radius: 2rem; font-size: 0.7rem; font-weight: 700; }
-        .badge-online { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .badge-paused { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .badge-banned { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
-
-        /* --- Overlays --- */
-        #login-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+        #login-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .hidden { display: none !important; }
-
-        /* --- Modal --- */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
         .modal.active { display: flex; }
-        .modal-content { background: var(--bg); border: 1px solid var(--border); border-radius: 1.5rem; padding: 2rem; width: 100%; max-width: 500px; position: relative; }
+        .modal-content { background: var(--bg); border: 1px solid var(--border); border-radius: 1.5rem; padding: 2rem; width: 100%; max-width: 500px; }
     </style>
 </head>
 <body>
-
     <div id="login-overlay">
-        <div class="card" style="width: 100%; max-width: 400px; text-align: center;">
+        <div class="card" style="width: 350px; text-align: center;">
             <h1 style="margin-bottom:1rem">BOTILLO <span style="color:var(--primary)">ELITE</span></h1>
-            <p style="color:var(--text-dim); margin-bottom:2rem">Diamond Command Center</p>
-            <input type="password" id="admin-token" placeholder="Introduce el Token Maestro" style="margin-bottom:1.5rem">
-            <button class="btn" id="login-btn" style="width:100%">DESBLOQUEAR SISTEMA</button>
-            <p id="login-error" style="color:var(--danger); margin-top:1rem; display:none;">Error de autenticación</p>
+            <input type="password" id="admin-token" placeholder="Token Maestro" style="width:100%; margin-bottom:1.5rem; padding:1rem; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; color:white;">
+            <button class="btn" id="login-btn" style="width: 100%;">DESBLOQUEAR SISTEMA</button>
         </div>
     </div>
 
@@ -99,124 +69,102 @@
     </nav>
 
     <div class="container hidden" id="main-content">
-        
-        <!-- View: Dashboard -->
         <div class="view active" id="view-dashboard">
             <div class="metrics-grid">
-                <div class="metric-card"><div class="metric-value" id="stat-total-users">0</div><div class="metric-label">Usuarios Totales</div></div>
+                <div class="metric-card"><div class="metric-value" id="stat-total-users">0</div><div class="metric-label">Usuarios</div></div>
                 <div class="metric-card"><div class="metric-value" id="stat-active-today" style="color:var(--success)">0</div><div class="metric-label">Activos Hoy</div></div>
                 <div class="metric-card"><div class="metric-value" id="stat-licenses" style="color:var(--accent)">0</div><div class="metric-label">Licencias VIP</div></div>
-                <div class="metric-card"><div class="metric-value" id="stat-bans" style="color:var(--danger)">0</div><div class="metric-label">Baneados</div></div>
+                <div class="metric-card"><div class="metric-value" id="stat-bans" style="color:var(--danger)">0</div><div class="metric-label">Baneos</div></div>
             </div>
             <div class="card">
-                <h2>📢 Anuncio Global (Broadcast)</h2>
-                <div class="form-group">
-                    <label>Este mensaje aparecerá como un banner dentro del bot para todos los usuarios conectados.</label>
-                    <textarea id="broadcast-msg" rows="3" placeholder="Ej: ¡Actualización v2.5 disponible! Únete al Discord..."></textarea>
-                </div>
-                <button class="btn" id="save-broadcast-btn">Actualizar Anuncio</button>
+                <h2>📢 Anuncio Global</h2>
+                <textarea id="broadcast-msg" rows="3" style="width:100%; margin-bottom:1rem; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; color:white; padding:1rem;"></textarea>
+                <button class="btn" id="save-broadcast-btn">Actualizar Mensaje</button>
             </div>
         </div>
 
-        <!-- View: Usuarios -->
         <div class="view" id="view-users">
             <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
-                    <h2>👥 Monitor HIVE en Tiempo Real</h2>
-                    <button class="btn btn-outline" id="refresh-users-btn">🔄 Actualizar Lista</button>
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
+                    <h2>👥 Monitor de Usuarios</h2>
+                    <button class="btn btn-outline" id="refresh-users-btn">🔄 Actualizar</button>
                 </div>
-                <input type="text" id="user-search" placeholder="Buscar por Nombre o ID..." style="margin-bottom:1.5rem">
                 <div class="table-container">
                     <table id="users-table">
-                        <thead><tr><th>Jugador / ID</th><th>Srv</th><th>Lvl</th><th>Estado HIVE</th><th>Última Vez</th><th>Acciones</th></tr></thead>
+                        <thead><tr><th>Jugador</th><th>ID</th><th>Srv</th><th>Lvl</th><th>Estado</th><th>Acción</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- View: Config Remota -->
         <div class="view" id="view-config">
             <div class="card">
-                <h2>⚙️ Configuración Remota (Object)</h2>
-                <p style="color:var(--text-dim); margin-bottom:1.5rem">Este JSON se envía a todos los bots. Controla la lógica interna, tiempos de espera y flags de la extensión.</p>
-                <div class="form-group">
-                    <textarea id="remote-config-json" rows="15" style="font-family:monospace; font-size:0.85rem"></textarea>
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
+                    <h2>⚙️ Configuración Maestra (Object)</h2>
+                    <button class="btn btn-outline" id="load-template-btn">💎 Cargar Plantilla Original</button>
                 </div>
-                <button class="btn" id="save-remote-config-btn">Guardar y Sincronizar</button>
+                <p style="color:var(--text-dim); margin-bottom:1rem; font-size:0.8rem">Este JSON elimina los errores de UI al proveer las variables que la extensión espera.</p>
+                <textarea id="remote-config-json" rows="18" style="width:100%; font-family:monospace; margin-bottom:1rem; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; color:white; padding:1rem;"></textarea>
+                <button class="btn" id="save-remote-config-btn" style="width:100%">SINCRONIZAR CON TODOS LOS BOTS</button>
             </div>
         </div>
 
-        <!-- View: Licencias -->
         <div class="view" id="view-licenses">
             <div class="card">
-                <h2>🔑 Gestión de Licencias VIP</h2>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem">
-                    <div class="form-group"><label>User ID (CharId)</label><input type="text" id="target-user-id"></div>
-                    <div class="form-group"><label>Fecha Expiración</label><input type="datetime-local" id="target-expiry"></div>
+                <h2>🔑 Gestión VIP</h2>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem">
+                    <input type="text" id="target-user-id" placeholder="ID de Usuario">
+                    <input type="datetime-local" id="target-expiry">
                 </div>
-                <button class="btn" id="save-license-btn">Asignar Licencia</button>
+                <button class="btn" id="save-license-btn">Añadir Licencia</button>
             </div>
-            <div class="card">
-                <h3>Listado de Usuarios VIP</h3>
-                <div class="table-container"><table id="lic-table"><thead><tr><th>UserID</th><th>Vence el</th><th>Días</th><th>Acción</th></tr></thead><tbody></tbody></table></div>
-            </div>
+            <div class="card"><table id="lic-table"><thead><tr><th>ID</th><th>Fecha Expira</th><th>Acción</th></tr></thead><tbody></tbody></table></div>
         </div>
 
-        <!-- View: Sistema -->
         <div class="view" id="view-system">
             <div class="card">
-                <h2>🛠️ Ajustes del Servidor</h2>
-                <div class="form-group" style="display:flex; justify-content:space-between">
-                    <label>Modo Mantenimiento (Killswitch Global)</label>
-                    <input type="checkbox" id="maint-mode" style="width:25px; height:25px; cursor:pointer">
-                </div>
-                <div class="form-group"><label>Días de Regalo Inicial (Nuevos Usuarios)</label><input type="number" id="gift-days" value="365"></div>
-                
-                <h3 style="margin:2rem 0 1rem">📣 Integración Telegram</h3>
-                <div class="form-group"><label>Bot Token</label><input type="text" id="tg-token" placeholder="000000:AAAbbbccc..."></div>
-                <div class="form-group"><label>Chat ID</label><input type="text" id="tg-id" placeholder="-100123456..."></div>
-                
-                <button class="btn" id="save-system-btn">Guardar Ajustes</button>
+                <h2>🛠️ Ajustes Avanzados</h2>
+                <div style="margin-bottom:1rem"><label>Mantenimiento (Killswitch)</label><input type="checkbox" id="maint-mode" style="width:20px; height:20px"></div>
+                <div style="margin-bottom:1rem"><label>Regalo Global (Días)</label><input type="number" id="gift-days" style="width:100%; padding:0.5rem"></div>
+                <div style="margin-bottom:1rem"><label>Telegram Token</label><input type="text" id="tg-token" style="width:100%; padding:0.5rem"></div>
+                <div style="margin-bottom:1rem"><label>Telegram ID</label><input type="text" id="tg-id" style="width:100%; padding:0.5rem"></div>
+                <button class="btn" id="save-system-btn">Guardar Todo</button>
             </div>
         </div>
-
     </div>
 
-    <!-- User Management Modal -->
     <div class="modal" id="user-modal">
         <div class="modal-content">
             <h2 id="modal-user-name">Usuario</h2>
-            <p id="modal-user-id" style="color:var(--text-dim); margin-bottom:1.5rem">ID: ...</p>
-            
-            <div class="form-group"><label>Notas Privadas</label><textarea id="modal-user-note" rows="3"></textarea></div>
-            
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:2rem">
-                <button class="btn btn-warning" id="modal-hive-btn">PAUSAR HIVE</button>
-                <button class="btn btn-danger" id="modal-ban-btn">BANEAR</button>
+            <p id="modal-user-id" style="color:var(--text-dim); margin-bottom:1rem"></p>
+            <textarea id="modal-user-note" placeholder="Notas..." style="width:100%; height:100px; margin-bottom:1rem; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; color:white; padding:0.5rem;"></textarea>
+            <div style="display:flex; gap:1rem">
+                <button class="btn" id="modal-hive-btn" style="flex:1">PAUSAR HIVE</button>
+                <button class="btn btn-danger" id="modal-ban-btn" style="flex:1">BANEAR</button>
             </div>
-            <button class="btn" id="modal-save-btn" style="width:100%; margin-top:1rem">Guardar Cambios</button>
-            <button class="btn btn-outline" onclick="closeModal()" style="width:100%; margin-top:0.5rem; border:none">Cerrar</button>
+            <button class="btn" onclick="closeModal()" style="width:100%; margin-top:1rem; background:none; border:1px solid var(--border)">Cerrar</button>
         </div>
     </div>
 
     <script>
         let adminToken = ''; let allUsers = []; let selectedId = null;
-        
         const api = {
             async req(action, method='GET', body=null) {
-                const url = `/api/admin${action ? '?action='+action : ''}`;
-                const res = await fetch(url, {
-                    method, 
-                    headers: { 'X-ADMIN-TOKEN': adminToken, 'Content-Type': 'application/json' },
+                const res = await fetch(`/api/admin${action ? '?action='+action : ''}`, {
+                    method, headers: { 'X-ADMIN-TOKEN': adminToken, 'Content-Type': 'application/json' },
                     body: body ? JSON.stringify(body) : null
                 });
-                if (res.status === 401) return null;
-                return await res.json();
+                return res.ok ? await res.json() : null;
             }
         };
 
-        // --- AUTH ---
+        const MASTER_TEMPLATE = {
+            settings: { attack_wait: 15, expedition_wait: 10, dungeon_wait: 10, auto_food: true, auto_heal: true, min_health: 30, ia_level: "diamond" },
+            features: { event_bot: true, guild_medic: true, gold_saver: true, telegram_alerts: true },
+            meta: { last_update: Date.now(), server_status: "stable" }
+        };
+
         document.getElementById('login-btn').onclick = async () => {
             adminToken = document.getElementById('admin-token').value;
             const res = await api.req('getStats');
@@ -225,12 +173,9 @@
                 document.getElementById('navigation').classList.remove('hidden');
                 document.getElementById('main-content').classList.remove('hidden');
                 updateDashboard(res);
-            } else {
-                document.getElementById('login-error').style.display='block';
             }
         };
 
-        // --- NAVIGATION ---
         document.querySelectorAll('.nav-tab').forEach(t => {
             t.onclick = async () => {
                 document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active'));
@@ -242,14 +187,12 @@
                 if (v === 'users') loadUsers();
                 if (v === 'config') loadRemoteConfig();
                 if (v === 'licenses') loadLicenses();
-                if (v === 'system') loadSystemSettings();
+                if (v === 'system') loadSystem();
             };
         });
 
-        // --- FUNCTIONS ---
         async function updateDashboard(s) {
             const stats = s || await api.req('getStats');
-            if (!stats) return;
             document.getElementById('stat-total-users').innerText = stats.totalUsers;
             document.getElementById('stat-active-today').innerText = stats.activeToday;
             document.getElementById('stat-licenses').innerText = stats.totalLicenses;
@@ -260,94 +203,75 @@
 
         async function loadUsers() {
             allUsers = await api.req('getUsers') || [];
-            renderUsers();
-        }
-
-        function renderUsers() {
-            const query = document.getElementById('user-search').value.toLowerCase();
             const tbody = document.querySelector('#users-table tbody');
             tbody.innerHTML = '';
-            allUsers.filter(u => u.name.toLowerCase().includes(query) || u.id.includes(query)).forEach(u => {
+            allUsers.forEach(u => {
                 const tr = document.createElement('tr');
-                const stateBadge = u.banned ? '<span class="badge badge-banned">Baneado</span>' : (u.hive ? '<span class="badge badge-paused">Pausado (HIVE)</span>' : '<span class="badge badge-online">Activo</span>');
-                tr.innerHTML = `
-                    <td><strong>${u.name}</strong><br><small style="color:var(--text-dim)">${u.id}</small></td>
-                    <td>S${u.server}</td><td style="color:var(--accent); font-weight:700">${u.level}</td>
-                    <td>${stateBadge}</td><td>${new Date(u.lastSeen).toLocaleTimeString()}</td>
-                    <td><button class="btn btn-outline" style="padding:0.4rem 0.8rem; font-size:0.7rem" onclick="openUserModal('${u.id}')">GESTIONAR</button></td>
-                `;
+                const status = u.banned ? '<span style="color:var(--danger)">Banned</span>' : (u.hive ? '<span style="color:var(--warning)">Paused</span>' : '<span style="color:var(--success)">Active</span>');
+                tr.innerHTML = `<td>${u.name}</td><td>${u.id}</td><td>S${u.server}</td><td>${u.level}</td><td>${status}</td><td><button onclick="openUser('${u.id}')">EDIT</button></td>`;
                 tbody.appendChild(tr);
             });
         }
-        document.getElementById('user-search').oninput = renderUsers;
-        document.getElementById('refresh-users-btn').onclick = loadUsers;
 
-        function openUserModal(id) {
+        function openUser(id) {
             const u = allUsers.find(x => x.id === id); selectedId = id;
             document.getElementById('modal-user-name').innerText = u.name;
             document.getElementById('modal-user-id').innerText = 'ID: ' + id;
             document.getElementById('modal-user-note').value = u.note || '';
             document.getElementById('modal-hive-btn').innerText = u.hive ? 'REANUDAR HIVE' : 'PAUSAR HIVE';
-            document.getElementById('modal-hive-btn').className = u.hive ? 'btn btn-success' : 'btn btn-warning';
-            document.getElementById('modal-ban-btn').innerText = u.banned ? 'DESBANEAR' : 'BANEAR';
             document.getElementById('user-modal').classList.add('active');
         }
         function closeModal() { document.getElementById('user-modal').classList.remove('active'); }
 
         async function loadRemoteConfig() {
-            const cfg = await api.req('getRemoteConfig') || {};
-            document.getElementById('remote-config-json').value = JSON.stringify(cfg, null, 4);
+            const cfg = await api.req('getRemoteConfig');
+            document.getElementById('remote-config-json').value = JSON.stringify(cfg && Object.keys(cfg).length ? cfg : MASTER_TEMPLATE, null, 4);
         }
+
+        document.getElementById('load-template-btn').onclick = () => {
+            document.getElementById('remote-config-json').value = JSON.stringify(MASTER_TEMPLATE, null, 4);
+        };
+
+        document.getElementById('save-remote-config-btn').onclick = async () => {
+            try {
+                const body = JSON.parse(document.getElementById('remote-config-json').value);
+                await api.req('setRemoteConfig', 'POST', body); alert('Sincronización completada');
+            } catch(e) { alert('Error en JSON'); }
+        };
+
+        document.getElementById('save-broadcast-btn').onclick = async () => {
+            const cfg = await api.req(); cfg.m = document.getElementById('broadcast-msg').value;
+            await api.req('', 'POST', cfg); alert('Broadcast actualizado');
+        };
+
+        document.getElementById('save-system-btn').onclick = async () => {
+            const cfg = {
+                s: document.getElementById('maint-mode').checked,
+                license_days: parseInt(document.getElementById('gift-days').value),
+                tgToken: document.getElementById('tg-token').value,
+                tgId: document.getElementById('tg-id').value,
+                m: document.getElementById('broadcast-msg').value
+            };
+            await api.req('', 'POST', cfg); alert('Ajustes guardados');
+        };
+
+        document.getElementById('save-license-btn').onclick = async () => {
+            const id = document.getElementById('target-user-id').value;
+            const expiry = new Date(document.getElementById('target-expiry').value).getTime();
+            await api.req('setLicense', 'POST', { id, expiry }); loadLicenses();
+        };
 
         async function loadLicenses() {
             const lics = await api.req('getLicenses') || [];
             const tbody = document.querySelector('#lic-table tbody');
             tbody.innerHTML = '';
             lics.forEach(l => {
-                const days = Math.ceil((l.expiry - Date.now())/(24*60*60*1000));
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${l.id}</td><td>${new Date(l.expiry).toLocaleDateString()}</td><td>${days} días</td><td><button class="btn btn-outline" style="color:var(--danger)" onclick="delLic('${l.id}')">Eliminar</button></td>`;
+                tr.innerHTML = `<td>${l.id}</td><td>${new Date(l.expiry).toLocaleString()}</td><td><button onclick="delLic('${l.id}')">ELIMINAR</button></td>`;
                 tbody.appendChild(tr);
             });
         }
-
-        async function loadSystemSettings() {
-            const cfg = await api.req();
-            document.getElementById('maint-mode').checked = cfg.s;
-            document.getElementById('gift-days').value = cfg.license_days || 365;
-            document.getElementById('tg-token').value = cfg.tgToken || '';
-            document.getElementById('tg-id').value = cfg.tgId || '';
-        }
-
-        // --- BUTTON HANDLERS ---
-        document.getElementById('save-broadcast-btn').onclick = async () => {
-            const cfg = await api.req(); cfg.m = document.getElementById('broadcast-msg').value;
-            await api.req('', 'POST', cfg); alert('Anuncio actualizado');
-        };
-
-        document.getElementById('save-remote-config-btn').onclick = async () => {
-            try {
-                const body = JSON.parse(document.getElementById('remote-config-json').value);
-                const res = await api.req('setRemoteConfig', 'POST', body);
-                if (res) alert('Configuración remota sincronizada');
-            } catch(e) { alert('JSON Inválido'); }
-        };
-
-        document.getElementById('save-system-btn').onclick = async () => {
-            const body = {
-                s: document.getElementById('maint-mode').checked,
-                m: document.getElementById('broadcast-msg').value,
-                license_days: parseInt(document.getElementById('gift-days').value),
-                tgToken: document.getElementById('tg-token').value,
-                tgId: document.getElementById('tg-id').value
-            };
-            await api.req('', 'POST', body); alert('Ajustes del servidor guardados');
-        };
-
-        document.getElementById('modal-save-btn').onclick = async () => {
-            await api.req('setUserNote', 'POST', { id: selectedId, note: document.getElementById('modal-user-note').value });
-            closeModal(); loadUsers();
-        };
+        async function delLic(id) { await api.req('setLicense', 'POST', { id, expiry: 0 }); loadLicenses(); }
 
         document.getElementById('modal-hive-btn').onclick = async () => {
             const u = allUsers.find(x => x.id === selectedId);
@@ -357,18 +281,8 @@
 
         document.getElementById('modal-ban-btn').onclick = async () => {
             const u = allUsers.find(x => x.id === selectedId);
-            if (confirm('¿Seguro?')) { await api.req('banUser', 'POST', { id: selectedId, ban: !u.banned }); closeModal(); loadUsers(); }
+            if (confirm('¿Banear?')) { await api.req('banUser', 'POST', { id: selectedId, ban: !u.banned }); closeModal(); loadUsers(); }
         };
-
-        document.getElementById('save-license-btn').onclick = async () => {
-            const id = document.getElementById('target-user-id').value;
-            const expiry = new Date(document.getElementById('target-expiry').value).getTime();
-            if (id && expiry) { await api.req('setLicense', 'POST', { id, expiry }); loadLicenses(); }
-        };
-
-        async function delLic(id) {
-            if (confirm('¿Restaurar licencia global?')) { await api.req('setLicense', 'POST', { id, expiry: 0 }); loadLicenses(); }
-        }
     </script>
 </body>
 </html>
