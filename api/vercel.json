@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, X-TOKEN, X-ADMIN-TOKEN, Authorization" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/api/admin", "destination": "/api/admin" },
+    { "source": "/config", "destination": "/api/config" },
+    { "source": "/check-licence/v2/free", "destination": "/api/check-licence/v2/free" },
+    { "source": "/check-licence/v2/check", "destination": "/api/check-licence/v2/check" },
+    { "source": "/check-licence/v2/check/", "destination": "/api/check-licence/v2/check" },
+    { "source": "/check-version/:path*", "destination": "/api/check-version" },
+    { "source": "/pack/:path*", "destination": "/api/pack" },
+    { "source": "/telegram/token", "destination": "/api/telegram-token" }
+  ]
+}
