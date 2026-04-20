@@ -9,112 +9,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg: #0b0f1a;
-            --card-bg: rgba(22, 30, 46, 0.8);
-            --text: #f8fafc;
-            --text-dim: #94a3b8;
-            --accent: #22d3ee;
-            --danger: #ef4444;
-            --success: #10b981;
-            --border: rgba(255, 255, 255, 0.08);
-            --warning: #f59e0b;
+            --primary: #6366f1; --primary-hover: #4f46e5; --bg: #0b0f1a; --card-bg: rgba(22, 30, 46, 0.8);
+            --text: #f8fafc; --text-dim: #94a3b8; --accent: #22d3ee; --danger: #ef4444; --success: #10b981;
+            --border: rgba(255, 255, 255, 0.08); --warning: #f59e0b;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.12) 0px, transparent 50%);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Outfit', sans-serif; background-color: var(--bg); color: var(--text); min-height: 100vh;
+            background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.12) 0px, transparent 50%);
         }
-
-        /* --- Header & Nav --- */
-        nav {
-            background: rgba(11, 15, 26, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-fill-color: transparent; color: transparent; }
-
+        nav { background: rgba(11, 15, 26, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--accent)); -webkit-background-clip: text; color: transparent; }
         .nav-links { display: flex; gap: 2rem; }
-        .nav-tab { color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.2s; position: relative; padding: 0.5rem 0; }
-        .nav-tab:hover { color: var(--text); }
+        .nav-tab { color: var(--text-dim); cursor: pointer; font-weight: 600; padding: 0.5rem 0; position: relative; transition: 0.2s; }
         .nav-tab.active { color: var(--text); }
-        .nav-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--primary); border-radius: 2px; }
-
-        .container { width: 100%; max-width: 1200px; margin: 2rem auto; padding: 0 1rem; flex: 1; }
-
-        .view { display: none; animation: fadeIn 0.3s ease-out; }
-        .view.active { display: block; }
+        .nav-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--primary); }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .view { display: none; } .view.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- Metrics Container --- */
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
-        .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.5rem; text-align: center; }
-        .metric-value { font-size: 2.5rem; font-weight: 800; color: var(--text); margin-bottom: 0.25rem; }
-        .metric-label { color: var(--text-dim); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* --- Other Styles --- */
         .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem; padding: 2rem; margin-bottom: 2rem; }
-        h2 { font-size: 1.6rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.5rem; text-align: center; }
+        .metric-value { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .metric-label { color: var(--text-dim); text-transform: uppercase; font-size: 0.75rem; font-weight: 600; }
         .form-group { margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-weight: 600; font-size: 0.85rem; }
-        input, textarea, select {
-            width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; color: var(--text); font-family: inherit; font-size: 1rem; transition: 0.2s;
-        }
-        input:focus { outline: none; border-color: var(--primary); }
-
-        .btn {
-            background: linear-gradient(to right, var(--primary), var(--primary-hover)); color: white; border: none; border-radius: 0.75rem; padding: 1rem 2.5rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px var(--primary); }
-        .btn-outline { background: transparent; border: 1px solid var(--border); }
-        .btn-danger { background: var(--danger); }
-
-        .search-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-        .search-bar input { flex: 1; }
-        .search-bar select { width: 150px; }
-
-        table { width: 100%; border-collapse: collapse; }
-        th { padding: 1rem; color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; text-align: left; border-bottom: 1px solid var(--border); }
+        label { display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.85rem; font-weight: 600; }
+        input, textarea, select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem; color: white; font-family: inherit; }
+        .btn { background: var(--primary); color: white; border: none; border-radius: 0.75rem; padding: 1rem 2rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 1rem; color: var(--text-dim); font-size: 0.75rem; border-bottom: 1px solid var(--border); }
         td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-        .badge { padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; }
-        .badge-banned { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
-
-        /* --- Modal --- */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 200; display: none; justify-content: center; align-items: center; padding: 1rem; }
-        .modal.active { display: flex; }
-        .modal-content { background: var(--bg); border: 1px solid var(--border); border-radius: 1.5rem; width: 100%; max-width: 500px; padding: 2rem; position: relative; }
-
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+        #login-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .hidden { display: none !important; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 200; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--bg); border: 1px solid var(--border); border-radius: 1.5rem; padding: 2rem; width: 400px; }
     </style>
 </head>
 <body>
-
     <div id="login-overlay">
-        <div class="card" style="width: 100%; max-width: 400px; text-align: center;">
-            <h1>BOTILLO <span style="color:var(--primary)">PRO</span></h1>
-            <p style="color: var(--text-dim); margin-bottom: 2rem;">Acceso Administrativo de Élite</p>
-            <input type="password" id="admin-token" placeholder="Token Secreto" style="margin-bottom: 1.5rem;">
-            <button class="btn" id="login-btn" style="width: 100%;">ENTRAR AL SISTEMA</button>
+        <div class="card" style="width: 350px; text-align: center;">
+            <h1 style="margin-bottom:1rem">BOTILLO PRO</h1>
+            <input type="password" id="admin-token" placeholder="Token" style="margin-bottom:1rem">
+            <button class="btn" id="login-btn" style="width:100%">ENTRAR</button>
         </div>
     </div>
 
@@ -126,231 +65,155 @@
             <div class="nav-tab" data-view="licenses">🔑 Licencias</div>
             <div class="nav-tab" data-view="system">⚙️ Sistema</div>
         </div>
-        <div id="global-indicator" style="font-size: 0.8rem; font-weight: 700; color: var(--success);">● SISTEMA ESTABLE</div>
     </nav>
 
     <div class="container hidden" id="main-content">
-        
-        <!-- Vista: Dashboard -->
         <div class="view active" id="view-dashboard">
             <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-value" id="stat-total-users">0</div>
-                    <div class="metric-label">Usuarios Totales</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" id="stat-active-today" style="color:var(--success)">0</div>
-                    <div class="metric-label">Activos Hoy</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" id="stat-licenses" style="color:var(--accent)">0</div>
-                    <div class="metric-label">Licencias Activas</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" id="stat-bans" style="color:var(--danger)">0</div>
-                    <div class="metric-label">Baneos</div>
-                </div>
+                <div class="metric-card"><div class="metric-value" id="stat-total-users">0</div><div class="metric-label">Total</div></div>
+                <div class="metric-card"><div class="metric-value" id="stat-active-today" style="color:var(--success)">0</div><div class="metric-label">Hoy</div></div>
+                <div class="metric-card"><div class="metric-value" id="stat-bans" style="color:var(--danger)">0</div><div class="metric-label">Banes</div></div>
             </div>
-
             <div class="card">
                 <h2>📢 Anuncio Global</h2>
-                <div class="form-group">
-                    <label>Este mensaje aparece como banner en todos los bots activos.</label>
-                    <textarea id="broadcast-msg" rows="2" placeholder="Ej: ¡Nuevo servidor de Discord disponible!"></textarea>
-                </div>
-                <button class="btn" id="save-broadcast-btn">Actualizar Anuncio</button>
+                <textarea id="broadcast-msg" rows="2" style="margin-bottom:1rem"></textarea>
+                <button class="btn" id="save-broadcast-btn">Actualizar</button>
             </div>
         </div>
 
-        <!-- Vista: Usuarios -->
         <div class="view" id="view-users">
             <div class="card">
-                <h2>👥 Gestión de Usuarios</h2>
-                <div class="search-bar">
-                    <input type="text" id="user-search" placeholder="Buscar por Nombre o ID...">
-                    <select id="server-filter">
-                        <option value="">Cualquier Servidor</option>
-                    </select>
-                    <button class="btn btn-outline" id="refresh-users">🔄</button>
-                </div>
-                <div style="overflow-x: auto;">
+                <h2>👥 Usuarios</h2>
+                <div class="table-container">
                     <table id="users-table">
-                        <thead>
-                            <tr>
-                                <th>Jugador</th>
-                                <th>Srv</th>
-                                <th>Lvl</th>
-                                <th>Oro</th>
-                                <th>Última Vez</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Jugador</th><th>Srv</th><th>Lvl</th><th>Visto</th><th>Acción</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- El resto de las vistas se mantienen similares pero estilizadas... -->
-        <!-- Vista Licencias omitida por brevedad en este chunk, se integrará en el archivo final -->
+        <div class="view" id="view-licenses">
+            <div class="card">
+                <h2>🔑 Licencia Individual</h2>
+                <div class="form-group"><label>User ID</label><input type="text" id="target-user-id"></div>
+                <div class="form-group"><label>Expiración</label><input type="datetime-local" id="target-expiry"></div>
+                <button class="btn" id="save-license-btn">Guardar</button>
+            </div>
+            <div class="card">
+                <h3>Lista VIP</h3>
+                <div class="table-container"><table id="lic-table"><thead><tr><th>ID</th><th>Expira</th><th>Acción</th></tr></thead><tbody></tbody></table></div>
+            </div>
+        </div>
 
+        <div class="view" id="view-system">
+            <div class="card">
+                <h2>⚙️ Sistema</h2>
+                <div class="form-group"><label>Modo Mantenimiento</label><input type="checkbox" id="maint-mode" style="width:20px"></div>
+                <div class="form-group"><label>Días Regalo Global</label><input type="number" id="gift-days"></div>
+                <button class="btn" id="save-system-btn">Guardar</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Modal de Usuario -->
     <div class="modal" id="user-modal">
         <div class="modal-content">
-            <h2 id="modal-user-name">Usuario</h2>
-            <p id="modal-user-id" style="color:var(--text-dim); margin-bottom: 2rem;">ID: ...</p>
-            
-            <div class="form-group">
-                <label>Notas de Administrador (Privado)</label>
-                <textarea id="user-notes" rows="4" placeholder="Escribe aquí anotaciones sobre este usuario..."></textarea>
-            </div>
-            
-            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                <button class="btn" id="save-user-notes" style="flex: 1;">Guardar Nota</button>
-                <button class="btn btn-danger" id="toggle-ban-btn" style="flex: 1;">Banear Usuario</button>
-            </div>
-            <button class="btn btn-outline" onclick="closeModal()" style="width: 100%; margin-top: 1rem; border:none;">Cerrar</button>
+            <h2 id="modal-name"></h2>
+            <textarea id="user-note" rows="3" style="margin: 1rem 0"></textarea>
+            <button class="btn" id="ban-btn" style="background:var(--danger); width:100%">BANEAR</button>
+            <button class="btn" onclick="closeModal()" style="background:none; width:100%; margin-top:0.5rem">Cerrar</button>
         </div>
     </div>
 
     <script>
-        let adminToken = '';
-        let allUsers = [];
-        let selectedUserId = null;
-
+        let adminToken = ''; let allUsers = []; let selectedId = null;
         const api = {
-            async get(action) {
-                const res = await fetch(`/api/admin?action=${action}`, { headers: { 'x-admin-token': adminToken } });
+            async req(action, method='GET', body=null) {
+                const url = `/api/admin${action ? '?action='+action : ''}`;
+                const res = await fetch(url, { method, headers: {'x-admin-token': adminToken, 'Content-Type':'application/json'}, body: body ? JSON.stringify(body) : null });
                 return res.ok ? await res.json() : null;
-            },
-            async post(action, body) {
-                const res = await fetch(`/api/admin?action=${action}`, {
-                    method: 'POST',
-                    headers: { 'x-admin-token': adminToken, 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                return res.ok;
             }
         };
 
-        // --- Auth ---
         document.getElementById('login-btn').onclick = async () => {
             adminToken = document.getElementById('admin-token').value;
-            const res = await api.get('getStats');
+            const res = await api.req('getStats');
             if (res) {
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('navigation').classList.remove('hidden');
                 document.getElementById('main-content').classList.remove('hidden');
-                updateDashboard(res);
+                updateDash(res);
             }
         };
 
-        // --- Dashboard ---
-        async function updateDashboard(stats) {
-            if (!stats) stats = await api.get('getStats');
-            document.getElementById('stat-total-users').innerText = stats.totalUsers;
-            document.getElementById('stat-active-today').innerText = stats.activeToday;
-            document.getElementById('stat-licenses').innerText = stats.totalLicenses;
-            document.getElementById('stat-bans').innerText = stats.totalBans;
-
-            const config = await api.get('');
-            document.getElementById('broadcast-msg').value = config.m || '';
-        }
-
-        // --- Navigation ---
         document.querySelectorAll('.nav-tab').forEach(t => {
             t.onclick = async () => {
                 document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active'));
                 document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
                 t.classList.add('active');
-                const viewId = 'view-' + t.dataset.view;
-                document.getElementById(viewId).classList.add('active');
-                if (viewId === 'view-dashboard') updateDashboard();
-                if (viewId === 'view-users') loadUsers();
+                const v = t.dataset.view;
+                document.getElementById('view-'+v).classList.add('active');
+                if (v === 'dashboard') updateDash();
+                if (v === 'users') loadUsers();
+                if (v === 'licenses') loadLicenses();
+                if (v === 'system') loadSystem();
             };
         });
 
-        // --- Users ---
-        async function loadUsers() {
-            allUsers = await api.get('getUsers');
-            renderUsers();
-            
-            // Populate servers
-            const servers = [...new Set(allUsers.map(u => u.server))];
-            const filter = document.getElementById('server-filter');
-            filter.innerHTML = '<option value="">Cualquier Servidor</option>';
-            servers.forEach(s => {
-                filter.innerHTML += `<option value="${s}">Servidor ${s}</option>`;
-            });
+        async function updateDash(s) {
+            const stats = s || await api.req('getStats');
+            document.getElementById('stat-total-users').innerText = stats.totalUsers;
+            document.getElementById('stat-active-today').innerText = stats.activeToday;
+            document.getElementById('stat-bans').innerText = stats.totalBans;
+            const cfg = await api.req();
+            document.getElementById('broadcast-msg').value = cfg.m || '';
         }
 
-        function renderUsers() {
-            const query = document.getElementById('user-search').value.toLowerCase();
-            const srv = document.getElementById('server-filter').value;
+        async function loadUsers() {
+            allUsers = await api.req('getUsers');
             const tbody = document.querySelector('#users-table tbody');
             tbody.innerHTML = '';
-            
-            allUsers.filter(u => {
-                const matchesSearch = u.name.toLowerCase().includes(query) || u.id.includes(query);
-                const matchesServer = !srv || u.server == srv;
-                return matchesSearch && matchesServer;
-            }).forEach(u => {
+            allUsers.forEach(u => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>
-                        <strong>${u.name}</strong> ${u.banned ? '<span class="badge badge-banned">Baneado</span>' : ''}
-                        <div style="font-size:0.7rem; color:var(--text-dim)">${u.id}</div>
-                    </td>
-                    <td>S${u.server}</td>
-                    <td style="color:var(--accent); font-weight:700">${u.level}</td>
-                    <td style="color:#facc15">${parseInt(u.gold).toLocaleString()}</td>
-                    <td>${new Date(u.lastSeen).toLocaleTimeString()}</td>
-                    <td><button class="btn btn-outline" style="padding:0.4rem 0.8rem; font-size:0.7rem" onclick="openUserModal('${u.id}')">GESTIONAR</button></td>
-                `;
+                tr.innerHTML = `<td>${u.name}</td><td>${u.server}</td><td>${u.level}</td><td>${new Date(u.lastSeen).toLocaleTimeString()}</td><td><button onclick="openUser('${u.id}')">EDIT</button></td>`;
                 tbody.appendChild(tr);
             });
         }
 
-        document.getElementById('user-search').oninput = renderUsers;
-        document.getElementById('server-filter').onchange = renderUsers;
-        document.getElementById('refresh-users').onclick = loadUsers;
-
-        function openUserModal(id) {
-            const u = allUsers.find(x => x.id === id);
-            selectedUserId = id;
-            document.getElementById('modal-user-name').innerText = u.name;
-            document.getElementById('modal-user-id').innerText = 'ID: ' + id;
-            document.getElementById('user-notes').value = u.note || '';
-            document.getElementById('toggle-ban-btn').innerText = u.banned ? 'DESBANEAR' : 'BANEAR USUARIO';
+        function openUser(id) {
+            const u = allUsers.find(x => x.id === id); selectedId = id;
+            document.getElementById('modal-name').innerText = u.name;
+            document.getElementById('user-note').value = u.note || '';
             document.getElementById('user-modal').classList.add('active');
         }
-
         function closeModal() { document.getElementById('user-modal').classList.remove('active'); }
 
-        document.getElementById('save-user-notes').onclick = async () => {
-            const note = document.getElementById('user-notes').value;
-            await api.post('setUserNote', { id: selectedUserId, note });
-            alert('Nota guardada.');
-            loadUsers();
+        async function loadLicenses() {
+            const lics = await api.req('getLicenses');
+            const tbody = document.querySelector('#lic-table tbody');
+            tbody.innerHTML = '';
+            lics.forEach(l => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${l.id}</td><td>${new Date(l.expiry).toLocaleDateString()}</td><td><button onclick="delLic('${l.id}')">X</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function loadSystem() {
+            const cfg = await api.req();
+            document.getElementById('maint-mode').checked = cfg.s;
+            document.getElementById('gift-days').value = cfg.license_days || 365;
+        }
+
+        document.getElementById('save-system-btn').onclick = async () => {
+            const cfg = { s: document.getElementById('maint-mode').checked, license_days: parseInt(document.getElementById('gift-days').value), m: document.getElementById('broadcast-msg').value };
+            await api.req('', 'POST', cfg); alert('Sistema guardado');
         };
 
-        document.getElementById('toggle-ban-btn').onclick = async () => {
-            const u = allUsers.find(x => x.id === selectedUserId);
-            if (confirm(`¿Seguro que quieres ${u.banned ? 'DESBANEAR' : 'BANEAR'} a este usuario?`)) {
-                await api.post('banUser', { id: selectedUserId, ban: !u.banned });
-                closeModal();
-                loadUsers();
-            }
-        };
-
-        document.getElementById('save-broadcast-btn').onclick = async () => {
-            const msg = document.getElementById('broadcast-msg').value;
-            const config = await api.get('');
-            config.m = msg;
-            await api.post('', config);
-            alert('Anuncio actualizado.');
+        document.getElementById('save-license-btn').onclick = async () => {
+            const id = document.getElementById('target-user-id').value;
+            const expiry = new Date(document.getElementById('target-expiry').value).getTime();
+            await api.req('setLicense', 'POST', { id, expiry }); loadLicenses();
         };
     </script>
 </body>
