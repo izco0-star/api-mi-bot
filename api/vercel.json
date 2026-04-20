@@ -12,13 +12,8 @@
   ],
   "rewrites": [
     { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/api/admin", "destination": "/api/admin" },
+    { "source": "/api/admin", "destination": "/api/admin.js" },
     { "source": "/config", "destination": "/api/config" },
-    { "source": "/check-licence/v2/free", "destination": "/api/check-licence/v2/free" },
-    { "source": "/check-licence/v2/check", "destination": "/api/check-licence/v2/check" },
-    { "source": "/check-licence/v2/check/", "destination": "/api/check-licence/v2/check" },
-    { "source": "/check-version/:path*", "destination": "/api/check-version" },
-    { "source": "/pack/:path*", "destination": "/api/pack" },
-    { "source": "/telegram/token", "destination": "/api/telegram-token" }
+    { "source": "/check-licence/v2/check", "destination": "/api/check-licence/v2/check.js" }
   ]
 }
